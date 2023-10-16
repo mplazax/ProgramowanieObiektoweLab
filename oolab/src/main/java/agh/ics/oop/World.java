@@ -4,12 +4,12 @@ import agh.ics.oop.model.MoveDirection;
 
 public class World {
     public static void main(String[] args) {
-        System.out.println("Start");
+        System.out.println("system wystartował");
 
         MoveDirection[] directions = OptionsParser.parse(args);
         run(directions);
 
-        System.out.println("Stop");
+        System.out.println("system zakończył działanie");
     }
 
     public static void run(MoveDirection[] directions) {

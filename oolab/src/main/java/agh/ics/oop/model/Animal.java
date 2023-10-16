@@ -13,13 +13,40 @@ public class Animal {
     }
 
     public String toString() {
-        return "position: " + this.position.toString() + ", orientation: " + this.orientation.toString();
+        return "pozycja: " + this.position.toString() + ", orientacja: " + this.orientation.toString();
     }
 
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
 
+    public void move(MoveDirection direction) {
+        Vector2d newPosition = this.position;
+        switch (direction) {
+            case FORWARD:
+                newPosition = this.position.add(this.orientation.toUnitVector());
+                break;
+            case BACKWARD:
+                newPosition = this.position.subtract(this.orientation.toUnitVector());
+                break;
+            case RIGHT:
+                this.orientation = this.orientation.next();
+                break;
+            case LEFT:
+                this.orientation = this.orientation.previous();
+                break;
+        }
+        if (newPosition.follows(new Vector2d(0, 0)) && newPosition.precedes(new Vector2d(4, 4))) {
+            this.position = newPosition;
+        }
+    }
 
 
+    public Vector2d getPosition() {
+        return this.position;
+    }
+
+    public MapDirection getOrientation() {
+        return this.orientation;
+    }
 }

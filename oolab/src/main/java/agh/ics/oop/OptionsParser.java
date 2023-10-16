@@ -22,7 +22,7 @@ public class OptionsParser {
                     directions[i] = MoveDirection.LEFT;
                     break;
                 default:
-                    // Ignore invalid arguments
+                    // ignorowanie niepoprawnych argumentów
                     break;
             }
         }

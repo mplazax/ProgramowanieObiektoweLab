@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.OptionsParser;
 
 public class World {
     public static void main(String[] args) {

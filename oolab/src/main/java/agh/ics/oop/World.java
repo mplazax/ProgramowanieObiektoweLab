@@ -1,15 +1,12 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.OptionsParser;
+import agh.ics.oop.model.*;
 
 public class World {
     public static void main(String[] args) {
         System.out.println("system wystartował");
-
-        MoveDirection[] directions = OptionsParser.parse(args);
-        run(directions);
-
+        Animal animal = new Animal();
+        System.out.println(animal.toString());
         System.out.println("system zakończył działanie");
     }
 

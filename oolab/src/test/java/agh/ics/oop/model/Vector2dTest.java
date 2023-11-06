@@ -3,14 +3,15 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.Vector2d;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Vector2dTest {
 
     @Test
     public void equalsTest() {
-        assertEquals(new Vector2d(1, 2).equals(new Vector2d(1, 2)), true);
-        assertEquals(new Vector2d(1, 2).equals(new Vector2d(1, 3)), false);
+        assertTrue(new Vector2d(1, 2).equals(new Vector2d(1, 2)));
+        assertFalse(new Vector2d(1, 2).equals(new Vector2d(1, 3)));
     }
 
     @Test

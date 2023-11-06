@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SimulationTest {
 
@@ -52,11 +53,18 @@ public class SimulationTest {
         assertEquals(new Vector2d(2, 3), simulation.getAnimals().get(0).getPosition());
         assertEquals(new Vector2d(3, 3), simulation.getAnimals().get(1).getPosition());
 
+        directions = OptionsParser.parse(new String[]{"b b r f l f r b f r b l l r f"});
+        positions = List.of(new Vector2d(0, 0), new Vector2d(4, 4), new Vector2d(2, 2), new Vector2d(3, 3), new Vector2d(1, 1), new Vector2d(0, 4));
+
+        simulation = new Simulation(directions, positions);
         // Sprawdzamy, czy zwierzęta nie wychodzą poza mapę
         for (Animal animal : simulation.getAnimals()) {
             Vector2d position = animal.getPosition();
             boolean withinBounds = position.follows(new Vector2d(0, 0)) && position.precedes(new Vector2d(4, 4));
-            assertEquals(true, withinBounds);
+            assertTrue(withinBounds);
         }
+        // @TODO: dodać testy sprawdzające zachowanie wiekszej ilosci zwierzat
+        // @TODO: dodac testy dla wejsciowych lancuchow znakow
     }
 }
+

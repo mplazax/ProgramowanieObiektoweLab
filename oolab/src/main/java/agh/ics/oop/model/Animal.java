@@ -1,44 +1,38 @@
 package agh.ics.oop.model;
-
-import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.MapDirection;
+import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.WorldMap;
 
 public class Animal {
+    private final Vector2d mapSize = new Vector2d(4, 4);
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2, 2);
-    public Animal() {}
+
     public Animal(Vector2d position) {
-        this.position = position;
+        this.setPosition(position);
+    }
+
+    public Animal() {
+        this.setOrientation(MapDirection.NORTH);
+        this.setPosition(new Vector2d(2, 2));
     }
 
     public String toString() {
-        return "pozycja: " + this.position.toString() + ", orientacja: " + this.orientation.toString();
+        return switch (this.getOrientation()) {
+            case NORTH -> "^";
+            case SOUTH -> "v";
+            case WEST -> "<";
+            case EAST -> ">";
+        };
     }
 
     public boolean isAt(Vector2d position) {
-        return this.position.equals(position);
+        return this.getPosition().equals(position);
     }
 
-    public void move(MoveDirection direction) {
-        Vector2d newPosition = this.position;
-        switch (direction) {
-            case FORWARD:
-                newPosition = this.position.add(this.orientation.toUnitVector());
-                break;
-            case BACKWARD:
-                newPosition = this.position.subtract(this.orientation.toUnitVector());
-                break;
-            case RIGHT:
-                this.orientation = this.orientation.next();
-                break;
-            case LEFT:
-                this.orientation = this.orientation.previous();
-                break;
-        }
-        if (newPosition.follows(new Vector2d(0, 0)) && newPosition.precedes(new Vector2d(4, 4))) {
-            this.position = newPosition;
-        }
+    public void move(MoveDirection direction, WorldMap validator) {
+        validator.move(this, direction);
+        // w przeciwnym wypadku pozostaje na swojej pozycji (jesli wychodziloby za mape)
     }
 
 
@@ -48,5 +42,13 @@ public class Animal {
 
     public MapDirection getOrientation() {
         return this.orientation;
+    }
+
+    public void setOrientation(MapDirection orientation) {
+        this.orientation = orientation;
+    }
+
+    public void setPosition(Vector2d position) {
+        this.position = position;
     }
 }

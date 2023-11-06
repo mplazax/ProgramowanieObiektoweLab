@@ -13,24 +13,4 @@ public class World {
         System.out.println("system zakończył działanie");
     }
 
-    public static void run(MoveDirection[] directions) {
-        for (MoveDirection direction : directions) {
-            if (direction != null) {
-                switch (direction) {
-                    case FORWARD:
-                        System.out.println("Zwierzak idzie do przodu");
-                        break;
-                    case BACKWARD:
-                        System.out.println("Zwierzak idzie do tyłu");
-                        break;
-                    case RIGHT:
-                        System.out.println("Zwierzak skręca w prawo");
-                        break;
-                    case LEFT:
-                        System.out.println("Zwierzak skręca w lewo");
-                        break;
-                }
-            }
-        }
-    }
 }

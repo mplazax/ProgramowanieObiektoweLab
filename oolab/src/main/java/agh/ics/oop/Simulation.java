@@ -6,13 +6,13 @@ import agh.ics.oop.model.Vector2d;
 import java.util.List;
 
 public class Simulation {
-    private final List<Animal> animals;
-    private final List<MoveDirection> moves;
+    private List<Animal> animals;
+    private List<MoveDirection> moves;
     private int currentAnimalIndex = 0;
 
     public Simulation(List<MoveDirection> moves, List<Vector2d> initialPositions) {
-        this.moves = moves;
-        this.animals = initializeAnimals(initialPositions);
+        this.setMoves(moves);
+        this.setAnimals(initializeAnimals(initialPositions));
     }
 
     private List<Animal> initializeAnimals(List<Vector2d> initialPositions) {
@@ -24,19 +24,39 @@ public class Simulation {
     }
 
     public void run() {
-        int numberOfAnimals = animals.size();
+        int numberOfAnimals = getAnimals().size();
 
-        for (MoveDirection move : moves) {
-            Animal currentAnimal = animals.get(currentAnimalIndex);
+        for (MoveDirection move : getMoves()) {
+            Animal currentAnimal = getAnimals().get(getCurrentAnimalIndex());
             currentAnimal.move(move);
 
-            System.out.println("Zwierzę " + currentAnimalIndex + ": " + currentAnimal);
+            System.out.println("Zwierzę " + getCurrentAnimalIndex() + ": " + currentAnimal);
 
-            currentAnimalIndex = (currentAnimalIndex + 1) % numberOfAnimals;
+            setCurrentAnimalIndex((getCurrentAnimalIndex() + 1) % numberOfAnimals);
         }
     }
 
     public List<Animal> getAnimals() {
         return this.animals;
+    }
+
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
+
+    public List<MoveDirection> getMoves() {
+        return moves;
+    }
+
+    public void setMoves(List<MoveDirection> moves) {
+        this.moves = moves;
+    }
+
+    public int getCurrentAnimalIndex() {
+        return currentAnimalIndex;
+    }
+
+    public void setCurrentAnimalIndex(int currentAnimalIndex) {
+        this.currentAnimalIndex = currentAnimalIndex;
     }
 }

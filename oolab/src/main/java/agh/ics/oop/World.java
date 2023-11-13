@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.*;
+import agh.ics.oop.model.util.OptionsParser;
+
 import java.util.List;
 
 public class World {

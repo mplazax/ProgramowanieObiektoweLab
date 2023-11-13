@@ -1,9 +1,7 @@
 package agh.ics.oop.model;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WorldMap;
 
-public class Animal {
+
+public class Animal implements WorldElement {
     private final Vector2d mapSize = new Vector2d(4, 4);
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2, 2);
@@ -32,7 +30,6 @@ public class Animal {
 
     public void move(MoveDirection direction, WorldMap validator) {
         validator.move(this, direction);
-        // w przeciwnym wypadku pozostaje na swojej pozycji (jesli wychodziloby za mape)
     }
 
 

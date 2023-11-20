@@ -1,56 +1,87 @@
 package agh.ics.oop.model;
-
+import agh.ics.oop.model.util.MapVisualizer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-public abstract class AbstractWorldMap implements WorldMap {
-    protected HashMap<Vector2d, Animal> animals = new HashMap<Vector2d, Animal>();
 
-    public boolean isOccupied(Vector2d position) {
-        return this.animals.containsKey(position);
+public abstract class AbstractWorldMap implements WorldMap{
+    protected Map<Vector2d, Animal> animals = new HashMap<>();
+    protected MapVisualizer visualization = new MapVisualizer (this);
+    protected Vector2d lowerleft;
+    protected Vector2d upperright;
+    protected ArrayList<MapChangeListener> observers = new ArrayList<>();
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
     }
-
-    public boolean canMoveTo(Vector2d position) {
-        return !this.isOccupied(position);
-    }
-
-    public boolean place(Animal animal) {
-        if (this.canMoveTo(animal.getPosition())) {
-            this.animals.put(animal.getPosition(), animal);
-            return true;
+    public void deleteObserver(MapChangeListener observer) {
+        int i = observers.indexOf(observer);
+        if (i >= 0) {
+            observers.remove(i);
         }
-        return false;
+    }
+    private void notifyObservers(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
     }
 
+
+    @Override
+    public boolean place(Animal animal) throws PositionAlreadyOccupiedException {
+        Vector2d position = animal.getPosition();
+        if (!canMoveTo(position)) {
+            throw new PositionAlreadyOccupiedException(position);
+        }
+
+        animals.put(position, animal);
+        notifyObservers("zwierze dodane");
+        return true;
+    }
+
+    @Override
     public void move(Animal animal, MoveDirection direction) {
-        Vector2d oldPosition = animal.getPosition();
-        Vector2d newPosition = null;
-        switch (direction) {
-            case LEFT -> {
-                animal.setOrientation(animal.getOrientation().previous()); return;
+        if(animals.containsValue(animal)){
+            Vector2d position = animal.getPosition();
+            MoveValidator validator = this;
+            animal.move(direction, validator);
+            Vector2d new_position = animal.getPosition();
+            if (!position.equals(new_position)) {
+                this.animals.remove(position);
+                this.animals.put(new_position, animal);
             }
-            case RIGHT -> {
-                animal.setOrientation(animal.getOrientation().next()); return;
-            }
-            case FORWARD -> newPosition = animal.getPosition().add(animal.getOrientation().toUnitVector());
-            case BACKWARD -> newPosition = animal.getPosition().subtract(animal.getOrientation().toUnitVector());
-        }
-        if (this.canMoveTo(newPosition)) {
-            animal.setPosition(newPosition);
-            this.animals.remove(oldPosition);
-            this.animals.put(newPosition, animal);
+            notifyObservers("zwierze poruszone");
         }
     }
 
-    public WorldElement ObjectAt(Vector2d position) {
-        if (this.animals.containsKey(position)) {
-            return this.animals.get(position);
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return animals.get(position) != null;
+    }
+
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        return animals.get(position);
+    }
+
+    @Override
+    public Map<Vector2d,WorldElement> getElements() {
+        Map<Vector2d,WorldElement> result = new HashMap<>();
+        for (Vector2d key : animals.keySet()){
+            result.put(key,animals.get(key));
         }
-        return null;
+        return result;
     }
 
-    public int getAnimalCount() {
-        return this.animals.size();
+    @Override
+    public Boundary getCurrentBounds(){
+        return new Boundary(lowerleft, upperright);
     }
 
-    public abstract String toString();
+    @Override
+    public String toString() {
+        return visualization.draw(getCurrentBounds().bottomLeft(),getCurrentBounds().upperRight() );
+    }
+
 }

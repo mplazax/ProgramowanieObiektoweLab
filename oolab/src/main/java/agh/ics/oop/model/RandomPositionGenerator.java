@@ -1,45 +1,50 @@
 package agh.ics.oop.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
-public class RandomPositionGenerator implements Iterable<Vector2d>{
+public class RandomPositionGenerator implements Iterable<Vector2d> {
+    private final int maxWidth;
+    private final int maxHeight;
+    private final int grassAmount;
+    private final List<Vector2d> availablePositions = new ArrayList<>();
+    private final Random random = new Random();
 
-    private final List<Vector2d> randomPositions = new ArrayList<Vector2d>();
+    public RandomPositionGenerator(int maxWidth, int maxHeight, int grassAmount) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+        this.grassAmount = grassAmount;
 
-    public RandomPositionGenerator(int maxWidth, int maxHeight, int grassCount) {
-        generatePositions(maxWidth, maxHeight, grassCount);
-    }
-
-    private void generatePositions(int maxWidth, int maxHeight, int grassCount) {
-        List<Vector2d> positions = new ArrayList<Vector2d>();
-        for (int i = 0; i < maxWidth; i++){
-            for (int j = 0; j < maxHeight; j++){
-                positions.add(new Vector2d(i, j));
+        for (int x = 0; x < maxWidth; x++) {
+            for (int y = 0; y < maxHeight; y++) {
+                availablePositions.add(new Vector2d(x, y));
             }
         }
-
-        Collections.shuffle(positions);
-
-        for (int i = 0; i < grassCount; i++) {
-            Vector2d position = positions.get(i);
-            this.randomPositions.add(position);
-        }
     }
+
     @Override
     public Iterator<Vector2d> iterator() {
         return new Iterator<Vector2d>() {
-            private int index = 0;
+            private int generatedCount = 0;
+
             @Override
             public boolean hasNext() {
-                return index < randomPositions.size();
+                return generatedCount < grassAmount;
             }
 
             @Override
             public Vector2d next() {
-                return randomPositions.get(index++);
+                if (hasNext()) {
+                    int randomIndex = random.nextInt(availablePositions.size());
+                    Vector2d generatedPosition = availablePositions.remove(randomIndex);
+                    generatedCount++;
+
+                    return generatedPosition;
+                }
+
+                throw new IllegalStateException("No more positions to generate.");
             }
         };
     }

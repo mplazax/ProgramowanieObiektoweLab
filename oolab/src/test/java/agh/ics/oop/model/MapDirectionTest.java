@@ -1,22 +1,59 @@
 package agh.ics.oop.model;
 
+import static agh.ics.oop.model.MapDirection.*;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MapDirectionTest {
+class MapDirectionTest {
     @Test
-    public void testNext() {
-        assertEquals(MapDirection.NORTH.next(), MapDirection.EAST);
-        assertEquals(MapDirection.EAST.next(), MapDirection.SOUTH);
-        assertEquals(MapDirection.SOUTH.next(), MapDirection.WEST);
-        assertEquals(MapDirection.WEST.next(), MapDirection.NORTH);
+    public void nextTest_NORTH(){
+        MapDirection result = NORTH.next();
+        assertEquals(EAST, result);
+    }
+    @Test
+    public void nextTest_EAST(){
+        MapDirection result = EAST.next();
+        assertEquals(SOUTH, result);
+    }
+    @Test
+    public void nextTest_WEST(){
+        MapDirection result = WEST.next();
+        assertEquals(NORTH, result);
+    }
+    @Test
+    public void nextTest_SOUTH(){
+        MapDirection result = SOUTH.next();
+        assertEquals(WEST, result);
     }
 
     @Test
-    public void testPrevious() {
-        assertEquals(MapDirection.NORTH.previous(), MapDirection.WEST);
-        assertEquals(MapDirection.WEST.previous(), MapDirection.SOUTH);
-        assertEquals(MapDirection.SOUTH.previous(), MapDirection.EAST);
-        assertEquals(MapDirection.EAST.previous(), MapDirection.NORTH);
+    public void previousTest_SOUTH(){
+        MapDirection direction = SOUTH;
+        MapDirection result = direction.previous();
+        assertEquals(EAST, result);
     }
+
+    @Test
+    public void previousTest_EAST(){
+        MapDirection direction = EAST;
+        MapDirection result = direction.previous();
+        assertEquals(NORTH, result);
+    }
+
+    @Test
+    public void previousTest_NORTH(){
+        MapDirection direction = NORTH;
+        MapDirection result = direction.previous();
+        assertEquals(WEST, result);
+    }
+
+    @Test
+    public void previousTest_WEST(){
+        MapDirection direction = WEST;
+        MapDirection result = direction.previous();
+        assertEquals(SOUTH, result);
+    }
+
+
+
 }

@@ -1,67 +1,83 @@
 package agh.ics.oop.model;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
-import java.util.*;
-import agh.ics.oop.model.util.MapVisualizer;
 
 public class GrassField extends AbstractWorldMap {
-    private HashMap<Vector2d, Animal> animals = new HashMap<Vector2d, Animal>();
-    private HashMap<Vector2d, Grass> grasses = new HashMap<Vector2d, Grass>();
+    private final int grassAmount;
+    private final Map<Vector2d, Grass> grassMap = new HashMap<>();
+    private final Random random = new Random();
 
-    public GrassField(int grassCount) {
-        this.generateGrass(grassCount);
+
+    public GrassField(int grassAmount) {
+        this.grassAmount = grassAmount;
+        placeGrass();
     }
+    private void placeGrass() {
+        int maxWidth = (int) Math.sqrt(grassAmount * 10);
+        int maxHeight = (int) Math.sqrt(grassAmount * 10);
+        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxWidth, maxHeight, grassAmount);
 
-    private void generateGrass(int grassCount) {
-        int maxSize = (int) Math.sqrt(grassCount * 10);
-        RandomPositionGenerator generator = new RandomPositionGenerator(maxSize, maxSize, grassCount);
-        for (Vector2d position : generator) {
-            Grass grass = new Grass(position);
-            this.grasses.put(position, grass);
+        for (Vector2d grassPosition : randomPositionGenerator) {
+            grassMap.put(grassPosition, new Grass(grassPosition));
         }
     }
 
     @Override
+    public boolean canMoveTo(Vector2d position) {
+        return animals.get(position) == null;
+    }
+
+
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return super.isOccupied(position) || grassMap.get(position) != null;
+    }
+
+    @Override
     public WorldElement objectAt(Vector2d position) {
-        WorldElement animal = super.objectAt(position);
-        if (animal != null) {
-            return animal;
-        }
-        if (this.grasses.containsKey(position)) {
-            return this.grasses.get(position);
-        }
-        return null;
+        if (animals.get(position) != null){return animals.get(position);}
+        return grassMap.get(position);
     }
 
-    public int getGrassCount() {
-        return this.grasses.size();
+    private Vector2d currentLower(){
+        Vector2d lowerLeft = new Vector2d(0, 0);
+        for (Vector2d position : animals.keySet()) {
+            lowerLeft = lowerLeft.lowerLeft(position);
+        }
+        for (Vector2d position : grassMap.keySet()) {
+            lowerLeft = lowerLeft.lowerLeft(position);
+        }
+        return lowerLeft;
     }
 
-    public String toString()    {
-        Vector2d bottomLeft = null;
-        Vector2d topRight = null;
-        for (Vector2d position : this.animals.keySet()) {
-            if (bottomLeft == null) {
-                bottomLeft = position;
-                topRight = position;
-            }
-            else {
-                bottomLeft = bottomLeft.lowerLeft(position);
-                topRight = topRight.upperRight(position);
-            }
+    private Vector2d currentUpper(){
+        Vector2d upperRight = new Vector2d(0, 0);
+        for (Vector2d position : animals.keySet()) {
+            upperRight = upperRight.upperRight(position);
         }
-        for (Vector2d position : this.grasses.keySet()) {
-            if (bottomLeft == null) {
-                bottomLeft = position;
-                topRight = position;
-            }
-            else {
-                bottomLeft = bottomLeft.lowerLeft(position);
-                topRight = topRight.upperRight(position);
-            }
+        for (Vector2d position : grassMap.keySet()) {
+            upperRight = upperRight.upperRight(position);
         }
-        assert bottomLeft != null;
-        return new MapVisualizer(this).draw(bottomLeft, topRight);
+        return upperRight;
     }
+
+    @Override
+    public Map<Vector2d, WorldElement>getElements() {
+        Map<Vector2d,WorldElement> result = super.getElements();
+        for (Vector2d key : grassMap.keySet()){
+            result.put(key,grassMap.get(key));
+        }
+        return result;
+    }
+
+    @Override
+    public Boundary getCurrentBounds(){
+        lowerleft = currentLower();
+        upperright = currentUpper();
+        return super.getCurrentBounds();
+    }
+
+
 }
-
-

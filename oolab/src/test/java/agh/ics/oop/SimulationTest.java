@@ -2,57 +2,57 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
+import static agh.ics.oop.model.MoveDirection.*;
+import static agh.ics.oop.model.MapDirection.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SimulationTest {
-
-    @Test
-    public void simulationRunWithSingleAnimalTest() {
-        // Given
-        List<MoveDirection> moves = Arrays.asList(MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.BACKWARD);
-        List<Vector2d> initialPositions = List.of(new Vector2d(2, 2));
-        GrassField map = new GrassField(10);
-        Simulation simulation = new Simulation(moves, initialPositions, map);
-
-        // When
-        simulation.run();
-
-        // Then
-        assertEquals(new Vector2d(3, 2), simulation.getAnimals().get(0).getPosition());
-    }
+class SimulationTest {
 
     @Test
-    public void simulationRunWithMultipleAnimalsTest() {
-        // Given
-        List<MoveDirection> moves = Arrays.asList(MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.BACKWARD);
-        List<Vector2d> initialPositions = Arrays.asList(new Vector2d(2, 2), new Vector2d(1, 1));
-        GrassField map = new GrassField(10);
-        Simulation simulation = new Simulation(moves, initialPositions, map);
+    public void runTest() throws PositionAlreadyOccupiedException{
+        WorldMap map = new RectangularMap(5,5);
+        List<MoveDirection> directions = Arrays.asList(
+                FORWARD,
+                RIGHT,
+                BACKWARD,
+                FORWARD,
+                FORWARD,
+                LEFT,
+                FORWARD
+        );
 
-        // When
+        List<Vector2d> startingPositions = Arrays.asList(
+                new Vector2d(-1, -1),
+                new Vector2d(2, 2),
+                new Vector2d(2, 2),
+                new Vector2d(3, 3),
+                new Vector2d(4, 4)
+        );
+
+        Simulation simulation = new Simulation(directions, startingPositions,map);
         simulation.run();
 
-        // Then
-        assertEquals(new Vector2d(3, 2), simulation.getAnimals().get(0).getPosition());
-        assertEquals(new Vector2d(2, 1), simulation.getAnimals().get(1).getPosition());
+        List<Vector2d> expectedPositions = Arrays.asList(
+                new Vector2d(2, 4),
+                new Vector2d(3, 3),
+                new Vector2d(4, 3)
+        );
+
+        List<MapDirection> expectedDirections = Arrays.asList(
+                NORTH,
+                EAST,
+                WEST
+        );
+
+        List<Animal> animals = simulation.getAnimals();
+        for (int i = 0; i < animals.size(); i++) {
+            assertEquals(expectedPositions.get(i), animals.get(i).getPosition());
+            assertEquals(expectedDirections.get(i),animals.get(i).getDirection());
+        }
     }
 
-    @Test
-    public void simulationRunWithWrapAroundTest() {
-        // Given
-        List<MoveDirection> moves = Arrays.asList(MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.BACKWARD);
-        List<Vector2d> initialPositions = List.of(new Vector2d(4, 4));
-        GrassField map = new GrassField(10);
-        Simulation simulation = new Simulation(moves, initialPositions, map);
-
-        // When
-        simulation.run();
-
-        // Then
-        assertEquals(new Vector2d(0, 4), simulation.getAnimals().get(0).getPosition());
-    }
 }

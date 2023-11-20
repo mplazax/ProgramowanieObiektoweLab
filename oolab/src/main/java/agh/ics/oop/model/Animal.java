@@ -1,51 +1,55 @@
 package agh.ics.oop.model;
+import static agh.ics.oop.model.MapDirection.*;
 
 
-public class Animal implements WorldElement {
-    private final Vector2d mapSize = new Vector2d(4, 4);
-    private MapDirection orientation = MapDirection.NORTH;
-    private Vector2d position = new Vector2d(2, 2);
-
-    public Animal(Vector2d position) {
-        this.setPosition(position);
-    }
+public class Animal implements WorldElement{
+    private MapDirection direction;
+    private Vector2d position;
 
     public Animal() {
-        this.setOrientation(MapDirection.NORTH);
-        this.setPosition(new Vector2d(2, 2));
+        this.direction = NORTH;
+        this.position = new Vector2d(2, 2);
     }
 
-    public String toString() {
-        return switch (this.getOrientation()) {
-            case NORTH -> "^";
-            case SOUTH -> "v";
-            case WEST -> "<";
-            case EAST -> ">";
-        };
-    }
-
-    public boolean isAt(Vector2d position) {
-        return this.getPosition().equals(position);
-    }
-
-    public void move(MoveDirection direction, WorldMap validator) {
-        validator.move(this, direction);
-    }
-
-
-    public Vector2d getPosition() {
-        return this.position;
-    }
-
-    public MapDirection getOrientation() {
-        return this.orientation;
-    }
-
-    public void setOrientation(MapDirection orientation) {
-        this.orientation = orientation;
-    }
-
-    public void setPosition(Vector2d position) {
+    public Animal(Vector2d position) {
+        this.direction = NORTH;
         this.position = position;
     }
+
+
+    public MapDirection getDirection() {
+        return direction;
+    }
+
+    public Vector2d getPosition() {return position;}
+
+    public String toString() {
+        String s = direction + "";
+        return s;
+    }
+    @Override
+    public boolean isAt(Vector2d position){
+        return this.position.equals(position);
+    }
+
+    public void move(MoveDirection direction, MoveValidator validator){
+        Vector2d result;
+        switch(direction) {
+            case RIGHT -> this.direction = (this.direction).next();
+            case LEFT -> this.direction = (this.direction).previous();
+            case FORWARD -> {
+                result = this.position.add(this.direction.toUnitVector());
+                if (validator.canMoveTo(result)){
+                    this.position = result;
+                }
+            }
+            case BACKWARD -> {
+                result = this.position.subtract(this.direction.toUnitVector());
+                if (validator.canMoveTo(result)){
+                    this.position = result;
+                }
+            }
+        }
+    }
+
 }

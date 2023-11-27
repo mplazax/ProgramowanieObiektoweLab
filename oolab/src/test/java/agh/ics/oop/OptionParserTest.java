@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.OptionsParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ class OptionParserTest {
     public void changeTest(){
         String[] directions = {"f", "b", "l", "r"};
 
-        List<MoveDirection> result = OptionParser.change(directions);
+        List<MoveDirection> result = OptionsParser.parse(directions);
 
         List<MoveDirection> expected = new ArrayList<>() ;
         expected.add(FORWARD);

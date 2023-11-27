@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class SimulationEngine {
+public class SimulationEngine implements Runnable{
     private final List<Simulation> simulations;
 
     public SimulationEngine(List<Simulation> simulations) {
@@ -50,5 +50,10 @@ public class SimulationEngine {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Thread started.");
     }
 }

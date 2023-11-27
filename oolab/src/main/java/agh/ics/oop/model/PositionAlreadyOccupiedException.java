@@ -1,9 +1,7 @@
 package agh.ics.oop.model;
 
-public class PositionAlreadyOccupiedException extends Exception{
+public class PositionAlreadyOccupiedException extends Exception {
     public PositionAlreadyOccupiedException(Vector2d position) {
-
-        super("Position " + position + " is already occupied.");
-
+        super("Position " + position + " is already occupied");
     }
 }

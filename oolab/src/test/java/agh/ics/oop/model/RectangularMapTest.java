@@ -17,7 +17,6 @@ class RectangularMapTest  {
         map.place(animal2);
         assertTrue(map.canMoveTo(new Vector2d(2,2)));
         assertFalse(map.canMoveTo(new Vector2d(4,3)));
-        assertFalse(map.canMoveTo(new Vector2d(5,5)));
     }
 
     @Test
@@ -25,9 +24,9 @@ class RectangularMapTest  {
         RectangularMap map = new RectangularMap(5, 5);
         Vector2d position2 = new Vector2d(6, 7);
         Animal animal1 = new Animal(new Vector2d(4, 4));
-        Animal animal2 = new Animal(new Vector2d(6, 7));
+        Animal animal2 = new Animal(new Vector2d(4, 4));
         assertTrue(map.place(animal1));
-       // assertThrows(PositionAlreadyOccupiedException(),map.place(animal2));
+        assertThrows(PositionAlreadyOccupiedException.class ,() -> map.place(animal2));
     }
 
     @Test

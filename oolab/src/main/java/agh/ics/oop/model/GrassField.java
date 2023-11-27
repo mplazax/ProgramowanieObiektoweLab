@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 
 public class GrassField extends AbstractWorldMap {
@@ -13,6 +14,7 @@ public class GrassField extends AbstractWorldMap {
     public GrassField(int grassAmount) {
         this.grassAmount = grassAmount;
         placeGrass();
+        this.id = UUID.randomUUID();
     }
     private void placeGrass() {
         int maxWidth = (int) Math.sqrt(grassAmount * 10);

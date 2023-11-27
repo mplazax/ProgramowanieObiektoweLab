@@ -3,6 +3,7 @@ import agh.ics.oop.model.util.MapVisualizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 public abstract class AbstractWorldMap implements WorldMap{
@@ -11,6 +12,8 @@ public abstract class AbstractWorldMap implements WorldMap{
     protected Vector2d lowerleft;
     protected Vector2d upperright;
     protected ArrayList<MapChangeListener> observers = new ArrayList<>();
+
+    protected UUID id = UUID.randomUUID();
 
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);
@@ -84,4 +87,8 @@ public abstract class AbstractWorldMap implements WorldMap{
         return visualization.draw(getCurrentBounds().bottomLeft(),getCurrentBounds().upperRight() );
     }
 
+    @Override
+    public UUID getId() {
+        return id;
+    }
 }

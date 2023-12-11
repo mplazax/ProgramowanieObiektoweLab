@@ -1,13 +1,16 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.model.enums.MapDirection;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.model.interfaces.WorldElement;
 import org.junit.jupiter.api.Test;
 
-import static agh.ics.oop.model.MoveDirection.*;
+import static agh.ics.oop.model.enums.MoveDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GrassFieldTest {
     @Test
-    public void canMoveTo() throws PositionAlreadyOccupiedException{
+    public void canMoveTo() throws PositionAlreadyOccupiedException {
         GrassField map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(4, 4));
         Animal animal2 = new Animal(new Vector2d(4, 3));

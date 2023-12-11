@@ -7,6 +7,6 @@
             minHeight="550.0" minWidth="850.0"
             fx:controller="agh.ics.oop.presenter.SimulationPresenter">
     <center>
-        <Label fx:id="infoLabel" text="All animals will be living here!" textAlignment="CENTER"/>
+        <Label fx:id="infoLabel" textAlignment="CENTER"/>
     </center>
 </BorderPane>

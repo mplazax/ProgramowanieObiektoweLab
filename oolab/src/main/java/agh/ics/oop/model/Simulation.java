@@ -1,6 +1,8 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.*;
+import agh.ics.oop.model.enums.MoveDirection;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.model.interfaces.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;

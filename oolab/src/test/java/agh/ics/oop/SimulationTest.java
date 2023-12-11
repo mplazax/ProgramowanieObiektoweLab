@@ -1,9 +1,13 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.*;
+import agh.ics.oop.model.enums.MapDirection;
+import agh.ics.oop.model.enums.MoveDirection;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.model.interfaces.WorldMap;
 import org.junit.jupiter.api.Test;
-import static agh.ics.oop.model.MoveDirection.*;
-import static agh.ics.oop.model.MapDirection.*;
+import static agh.ics.oop.model.enums.MoveDirection.*;
+import static agh.ics.oop.model.enums.MapDirection.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SimulationTest {
 
     @Test
-    public void runTest() throws PositionAlreadyOccupiedException{
+    public void runTest() throws PositionAlreadyOccupiedException {
         WorldMap map = new RectangularMap(5,5);
         List<MoveDirection> directions = Arrays.asList(
                 FORWARD,

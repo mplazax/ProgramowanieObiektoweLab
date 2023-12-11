@@ -1,15 +1,18 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.model.enums.MapDirection;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.model.interfaces.WorldElement;
 import agh.ics.oop.model.util.MapVisualizer;
 import org.junit.jupiter.api.Test;
-import static agh.ics.oop.model.MoveDirection.*;
-import static agh.ics.oop.model.MoveDirection.FORWARD;
+import static agh.ics.oop.model.enums.MoveDirection.*;
+import static agh.ics.oop.model.enums.MoveDirection.FORWARD;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RectangularMapTest  {
 
     @Test
-    public void canMoveTo()throws PositionAlreadyOccupiedException{
+    public void canMoveTo()throws PositionAlreadyOccupiedException {
         RectangularMap map = new RectangularMap(5, 5);
         Animal animal1 = new Animal(new Vector2d(4, 4));
         Animal animal2 = new Animal(new Vector2d(4, 3));

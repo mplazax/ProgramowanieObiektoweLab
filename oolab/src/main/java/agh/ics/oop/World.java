@@ -1,6 +1,9 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.*;
+import agh.ics.oop.model.enums.MoveDirection;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +26,8 @@ public class World {
     }
 
     public static void main(String[] args) throws PositionAlreadyOccupiedException {
-
-        List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4), new Vector2d(3, 4));
+        Application.launch(SimulationApp.class, args);
+        List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
 
         int numberOfSimulations = 1000;
         List<Simulation> simulations = new ArrayList<>(numberOfSimulations);
@@ -41,6 +44,7 @@ public class World {
         Thread engineThread = new Thread(simulationEngine);
         engineThread.start();
         System.out.println("System zakończył działanie");
+
     }
 
 }

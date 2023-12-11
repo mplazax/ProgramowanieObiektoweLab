@@ -1,13 +1,13 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.enums.MoveDirection;
 import agh.ics.oop.model.OptionsParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static agh.ics.oop.model.MoveDirection.*;
+import static agh.ics.oop.model.enums.MoveDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OptionParserTest {

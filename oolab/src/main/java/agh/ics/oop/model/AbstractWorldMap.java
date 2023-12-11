@@ -1,4 +1,10 @@
 package agh.ics.oop.model;
+import agh.ics.oop.model.enums.MoveDirection;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.model.interfaces.MapChangeListener;
+import agh.ics.oop.model.interfaces.MoveValidator;
+import agh.ics.oop.model.interfaces.WorldElement;
+import agh.ics.oop.model.interfaces.WorldMap;
 import agh.ics.oop.model.util.MapVisualizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public abstract class AbstractWorldMap implements WorldMap{
+public abstract class AbstractWorldMap implements WorldMap {
     protected Map<Vector2d, Animal> animals = new HashMap<>();
     protected MapVisualizer visualization = new MapVisualizer (this);
     protected Vector2d lowerleft;
@@ -24,7 +30,7 @@ public abstract class AbstractWorldMap implements WorldMap{
             observers.remove(i);
         }
     }
-    private void notifyObservers(String message) {
+    public void notifyObservers(String message) {
         for (MapChangeListener observer : observers) {
             observer.mapChanged(this, message);
         }

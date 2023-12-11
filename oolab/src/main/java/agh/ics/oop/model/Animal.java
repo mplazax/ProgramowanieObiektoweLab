@@ -1,8 +1,13 @@
 package agh.ics.oop.model;
-import static agh.ics.oop.model.MapDirection.*;
+import agh.ics.oop.model.enums.MapDirection;
+import agh.ics.oop.model.enums.MoveDirection;
+import agh.ics.oop.model.interfaces.MoveValidator;
+import agh.ics.oop.model.interfaces.WorldElement;
+
+import static agh.ics.oop.model.enums.MapDirection.*;
 
 
-public class Animal implements WorldElement{
+public class Animal implements WorldElement {
     private MapDirection direction;
     private Vector2d position;
 

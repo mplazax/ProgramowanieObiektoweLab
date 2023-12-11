@@ -1,4 +1,11 @@
-package agh.ics.oop.model;
+package agh.ics.oop.model.interfaces;
+import agh.ics.oop.model.Animal;
+import agh.ics.oop.model.Boundary;
+import agh.ics.oop.model.enums.MoveDirection;
+import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.presenter.SimulationPresenter;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -48,4 +55,8 @@ public interface WorldMap extends MoveValidator {
     Boundary getCurrentBounds();
 
     UUID getId();
+
+    void addObserver(MapChangeListener observer);
+    void deleteObserver(MapChangeListener observer);
+    void notifyObservers(String message);
 }

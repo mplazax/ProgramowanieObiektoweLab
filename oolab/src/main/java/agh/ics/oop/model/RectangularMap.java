@@ -7,7 +7,6 @@ public class RectangularMap extends AbstractWorldMap {
     private final int width;
     private final int height;
 
-
     public RectangularMap(int width, int height) {
         this.width = width;
         this.height = height;
@@ -22,5 +21,4 @@ public class RectangularMap extends AbstractWorldMap {
         this.upperright = new Vector2d(this.width, this.height);
         return position.follows(lowerLeft) && position.precedes(upperRight) && !isOccupied(position);
     }
-
 }
